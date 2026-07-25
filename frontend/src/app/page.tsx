@@ -202,24 +202,24 @@ export default function Home() {
 
   return (
     <main
-      className="flex min-h-screen flex-col items-center p-6 md:p-12 lg:p-24"
+      className="flex min-h-[100dvh] flex-col items-center justify-center p-4 md:p-8 overflow-hidden bg-gradient-to-b from-stone-900 to-amber-950/20"
       role="main"
       aria-label="AnchorAI SOS Recovery Interface"
     >
       {/* Header */}
-      <header className="z-10 max-w-5xl w-full items-center justify-center flex flex-col mb-12 text-center">
+      <header className="z-10 max-w-6xl w-full items-center justify-center flex flex-col mb-8 text-center mt-[-5vh]">
         <h1 className="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight drop-shadow-md">
           <span className="text-white">Anchor</span>
-          <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">AI</span>
+          <span className="bg-gradient-to-r from-amber-400 to-rose-400 bg-clip-text text-transparent">AI</span>
         </h1>
         
-        <p className="text-xl text-slate-300 font-medium mb-6 max-w-2xl leading-relaxed" role="doc-subtitle">
+        <p className="text-xl md:text-2xl text-stone-300 font-medium mb-6 w-full max-w-4xl leading-relaxed" role="doc-subtitle">
           Your zero-judgment, real-time recovery companion. <br className="hidden md:block" />
           Tap the SOS button to speak, and our AI will instantly generate a personalized safety plan and grounding exercise to help you through this moment.
         </p>
 
-        <div className="mt-2 p-5 rounded-2xl bg-gradient-to-r from-emerald-900/40 to-teal-900/40 border border-emerald-500/30 max-w-lg shadow-xl shadow-emerald-900/20 backdrop-blur-sm">
-          <p className="text-emerald-50 text-lg italic font-medium flex items-center justify-center gap-3">
+        <div className="mt-2 p-5 rounded-2xl bg-gradient-to-r from-amber-900/40 to-rose-900/40 border border-amber-500/30 w-full max-w-3xl shadow-xl shadow-amber-900/20 backdrop-blur-sm">
+          <p className="text-amber-50 text-lg md:text-xl italic font-medium flex items-center justify-center gap-3">
             <span className="text-2xl" aria-hidden="true">🌟</span>
             <span>"You are stronger than whatever is trying to pull you down today. Take a deep breath, we are here for you."</span>
             <span className="text-2xl" aria-hidden="true">💛</span>
@@ -230,7 +230,7 @@ export default function Home() {
       {/* SOS Interface — shown when no response yet */}
       {!response ? (
         <section
-          className="flex flex-col items-center justify-center w-full max-w-2xl animate-fade-in"
+          className="flex flex-col items-center justify-center w-full max-w-3xl animate-fade-in"
           aria-label="SOS crisis intervention"
         >
           {inputMode === 'voice' ? (
@@ -240,12 +240,12 @@ export default function Home() {
                 isProcessing={isProcessing}
                 onClick={toggleListening}
               />
-              <div className="mt-12 w-full">
+              <div className="mt-8 w-full max-w-2xl">
                 <TranscriptDisplay transcript={transcript} isListening={isListening} />
               </div>
               <button
                 onClick={() => setInputMode('text')}
-                className="mt-8 text-sm text-slate-400 hover:text-white transition-colors underline underline-offset-4 decoration-slate-600 hover:decoration-slate-400"
+                className="mt-6 text-sm text-stone-400 hover:text-white transition-colors underline underline-offset-4 decoration-stone-600 hover:decoration-stone-400"
                 aria-label="Switch to text input mode"
               >
                 Prefer to type? Switch to text input
@@ -258,14 +258,14 @@ export default function Home() {
                 value={textInput}
                 onChange={(e) => setTextInput(e.target.value)}
                 placeholder="How are you feeling right now? Describe what you're experiencing..."
-                className="w-full h-40 glass-panel p-6 text-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white placeholder-slate-500 resize-none"
+                className="w-full h-32 glass-panel p-5 text-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-white placeholder-stone-400 resize-none"
                 aria-label="Describe your current feelings and state"
                 maxLength={5000}
               />
               <button
                 type="submit"
                 disabled={isProcessing || !textInput.trim()}
-                className="px-8 py-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-lg hover:from-emerald-400 hover:to-teal-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-emerald-500/25"
+                className="px-8 py-3 rounded-full bg-gradient-to-r from-amber-500 to-rose-500 text-white font-bold text-lg hover:from-amber-400 hover:to-rose-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-amber-500/25"
                 aria-label="Submit your message for AI analysis"
                 id="submit-text-btn"
               >
@@ -274,7 +274,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => setInputMode('voice')}
-                className="mt-4 text-sm text-slate-400 hover:text-white transition-colors underline underline-offset-4 decoration-slate-600 hover:decoration-slate-400"
+                className="mt-2 text-sm text-stone-400 hover:text-white transition-colors underline underline-offset-4 decoration-stone-600 hover:decoration-stone-400"
                 aria-label="Switch to voice input mode"
               >
                 Switch to voice input
