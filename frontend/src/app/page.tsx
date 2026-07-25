@@ -207,14 +207,24 @@ export default function Home() {
       aria-label="AnchorAI SOS Recovery Interface"
     >
       {/* Header */}
-      <header className="z-10 max-w-5xl w-full items-center justify-between flex flex-col mb-12">
-        <h1 className="text-4xl md:text-6xl font-bold mb-3 tracking-tight">
+      <header className="z-10 max-w-5xl w-full items-center justify-center flex flex-col mb-12 text-center">
+        <h1 className="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight drop-shadow-md">
           <span className="text-white">Anchor</span>
-          <span className="text-gradient">AI</span>
+          <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">AI</span>
         </h1>
-        <p className="text-lg text-slate-400 font-medium" role="doc-subtitle">
-          Your AI Recovery Companion
+        
+        <p className="text-xl text-slate-300 font-medium mb-6 max-w-2xl leading-relaxed" role="doc-subtitle">
+          Your zero-judgment, real-time recovery companion. <br className="hidden md:block" />
+          Tap the SOS button to speak, and our AI will instantly generate a personalized safety plan and grounding exercise to help you through this moment.
         </p>
+
+        <div className="mt-2 p-5 rounded-2xl bg-gradient-to-r from-emerald-900/40 to-teal-900/40 border border-emerald-500/30 max-w-lg shadow-xl shadow-emerald-900/20 backdrop-blur-sm">
+          <p className="text-emerald-50 text-lg italic font-medium flex items-center justify-center gap-3">
+            <span className="text-2xl" aria-hidden="true">🌟</span>
+            <span>"You are stronger than whatever is trying to pull you down today. Take a deep breath, we are here for you."</span>
+            <span className="text-2xl" aria-hidden="true">💛</span>
+          </p>
+        </div>
       </header>
 
       {/* SOS Interface — shown when no response yet */}
