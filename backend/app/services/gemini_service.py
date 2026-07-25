@@ -105,7 +105,7 @@ async def orchestrate_crisis(user_input: str) -> dict:
     )
     
     # Format the master prompt with user input
-    formatted_prompt = MASTER_PROMPT.format(user_input=user_input)
+    formatted_prompt = MASTER_PROMPT.replace("{user_input}", user_input)
     
     logger.info("Sending orchestration request to Gemini 1.5 Flash API...")
     
@@ -119,8 +119,8 @@ async def orchestrate_crisis(user_input: str) -> dict:
     
     # Clean response text (remove markdown code blocks if present)
     if response_text.startswith("```"):
-        lines = response_text.split("\\n")
-        response_text = "\\n".join(lines[1:-1])
+        lines = response_text.split("\n")
+        response_text = "\n".join(lines[1:-1])
     
     try:
         result = json.loads(response_text)
