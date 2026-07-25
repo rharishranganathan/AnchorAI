@@ -1,15 +1,15 @@
 import logging
-from typing import Dict, Any
+import smtplib
+from email.message import EmailMessage
+import os
+from typing import Dict, Any, Optional
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
-def send_caregiver_alert(crisis_data: Dict[str, Any], user_info: str) -> str:
+def send_caregiver_alert(crisis_data: Dict[str, Any], user_info: str, caregiver_email: Optional[str] = None) -> str:
     """
-    Format and log a CRITICAL ALERT for caregivers.
-    
-    This function generates a visually prominent console alert and returns the formatted string.
-    Ready for SMTP/SMS integration in a production environment.
+    Format and log a CRITICAL ALERT for caregivers, and send a real email if an address is provided.
     """
     timestamp = datetime.utcnow().isoformat()
     risk_level = crisis_data.get("relapse_risk", {}).get("level", "UNKNOWN")
@@ -37,6 +37,27 @@ SUGGESTED MESSAGE TO CAREGIVER:
     # Visually prominent in console
     logger.warning(alert_string)
     
-    # TODO: Add SMTP/Twilio integration here
-    
+    # Send actual email if address provided for hackathon demo
+    if caregiver_email:
+        try:
+            gmail_user = os.environ.get("GMAIL_USER")
+            gmail_pass = os.environ.get("GMAIL_APP_PASSWORD")
+            
+            if gmail_user and gmail_pass:
+                msg = EmailMessage()
+                msg.set_content(f"CRITICAL ALERT: Your loved one has triggered an SOS and is at {risk_level} risk.\n\nReason: {reason}\n\nSuggested action:\n{suggested_message}")
+                msg['Subject'] = '🚨 URGENT: AnchorAI Caregiver Alert 🚨'
+                msg['From'] = gmail_user
+                msg['To'] = caregiver_email
+
+                server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+                server.login(gmail_user, gmail_pass)
+                server.send_message(msg)
+                server.quit()
+                logger.info(f"Caregiver email successfully sent to {caregiver_email}!")
+            else:
+                logger.warning("GMAIL_USER or GMAIL_APP_PASSWORD missing. Email not sent.")
+        except Exception as e:
+            logger.error(f"Failed to send caregiver email: {e}")
+            
     return alert_string

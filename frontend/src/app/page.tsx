@@ -68,6 +68,7 @@ export default function Home() {
   const [error, setError] = useState('');
   const [inputMode, setInputMode] = useState<'voice' | 'text'>('voice');
   const [textInput, setTextInput] = useState('');
+  const [caregiverEmail, setCaregiverEmail] = useState('');
 
   const recognitionRef = useRef<any>(null);
   const transcriptRef = useRef('');
@@ -95,6 +96,7 @@ export default function Home() {
         body: JSON.stringify({
           voice_transcript: inputText,
           user_id: TEST_USER_ID,
+          caregiver_email: caregiverEmail || undefined,
         }),
       });
 
@@ -233,6 +235,21 @@ export default function Home() {
           className="flex flex-col items-center justify-center w-full max-w-3xl animate-fade-in"
           aria-label="SOS crisis intervention"
         >
+          {/* Caregiver Email Input for Hackathon Demo */}
+          <div className="w-full max-w-md mb-8 flex flex-col items-center">
+            <label htmlFor="caregiver-email" className="text-sm font-medium text-stone-400 mb-2">
+              Jury Demo: Enter email to receive Caregiver Alert (Optional)
+            </label>
+            <input
+              type="email"
+              id="caregiver-email"
+              value={caregiverEmail}
+              onChange={(e) => setCaregiverEmail(e.target.value)}
+              placeholder="jury@example.com"
+              className="w-full glass-panel p-3 text-center text-white placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-500 rounded-xl"
+            />
+          </div>
+
           {inputMode === 'voice' ? (
             <>
               <SOSButton
