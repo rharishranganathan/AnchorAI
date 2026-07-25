@@ -34,8 +34,8 @@ export default function Dashboard() {
         const data = await res.json();
         // Backend returns array directly or { history: [...] }
         setHistory(Array.isArray(data) ? data : data.history || []);
-      } catch (err: any) {
-        setError(err.message || 'Error fetching history');
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Error fetching history');
       } finally {
         setIsLoading(false);
       }

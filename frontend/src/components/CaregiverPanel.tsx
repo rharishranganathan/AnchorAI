@@ -38,7 +38,7 @@ export default function CaregiverPanel({ summary, dos, donts, conversationStarte
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
             </svg>
-            DO'S
+            DO&apos;S
           </h4>
           <ul className="space-y-3">
             {dos.map((item, idx) => (
@@ -55,7 +55,7 @@ export default function CaregiverPanel({ summary, dos, donts, conversationStarte
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
-            DON'TS
+            DON&apos;TS
           </h4>
           <ul className="space-y-3">
             {donts.map((item, idx) => (
@@ -73,7 +73,7 @@ export default function CaregiverPanel({ summary, dos, donts, conversationStarte
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {conversationStarters.map((starter, idx) => (
             <div key={idx} className="relative bg-slate-800/50 p-4 rounded-2xl rounded-tl-sm border border-slate-700/50">
-              <p className="text-sm text-slate-200">"{starter}"</p>
+              <p className="text-sm text-slate-200">&quot;{starter}&quot;</p>
             </div>
           ))}
         </div>

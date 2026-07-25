@@ -69,7 +69,7 @@ export default function Home() {
   const [inputMode, setInputMode] = useState<'voice' | 'text'>('voice');
   const [textInput, setTextInput] = useState('');
 
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
   const transcriptRef = useRef('');
 
   // Keep transcript ref in sync for use in onend callback
@@ -105,8 +105,8 @@ export default function Home() {
 
       const data: BackendResponse = await res.json();
       setResponse(data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to connect to the server. Is the backend running?');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to connect to the server.');
     } finally {
       setIsProcessing(false);
     }
@@ -116,19 +116,21 @@ export default function Home() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const SpeechRecognitionAPI = (window as unknown as { SpeechRecognition: typeof SpeechRecognition }).SpeechRecognition || 
+                                 (window as unknown as { webkitSpeechRecognition: typeof SpeechRecognition }).webkitSpeechRecognition;
 
-    if (!SpeechRecognition) {
+    if (!SpeechRecognitionAPI) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setInputMode('text');
       return;
     }
 
-    const recognition = new SpeechRecognition();
+    const recognition = new SpeechRecognitionAPI();
     recognition.continuous = true;
     recognition.interimResults = true;
     recognition.lang = 'en-US';
 
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       let currentTranscript = '';
       for (let i = 0; i < event.results.length; i++) {
         currentTranscript += event.results[i][0].transcript;
@@ -136,7 +138,7 @@ export default function Home() {
       setTranscript(currentTranscript);
     };
 
-    recognition.onerror = (event: any) => {
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
       console.error('Speech recognition error:', event.error);
       setIsListening(false);
       if (event.error === 'not-allowed') {
@@ -176,7 +178,7 @@ export default function Home() {
       try {
         recognitionRef.current?.start();
         setIsListening(true);
-      } catch (e) {
+      } catch (e: unknown) {
         console.error('Failed to start speech recognition:', e);
         setInputMode('text');
       }
@@ -221,7 +223,7 @@ export default function Home() {
         <div className="mt-2 p-5 rounded-2xl bg-gradient-to-r from-amber-900/40 to-rose-900/40 border border-amber-500/30 w-full max-w-3xl shadow-xl shadow-amber-900/20 backdrop-blur-sm">
           <p className="text-amber-50 text-lg md:text-xl italic font-medium flex items-center justify-center gap-3">
             <span className="text-2xl" aria-hidden="true">🌟</span>
-            <span>"You are stronger than whatever is trying to pull you down today. Take a deep breath, we are here for you."</span>
+            <span>&quot;You are stronger than whatever is trying to pull you down today. Take a deep breath, we are here for you.&quot;</span>
             <span className="text-2xl" aria-hidden="true">💛</span>
           </p>
         </div>
@@ -347,7 +349,8 @@ export default function Home() {
 
             {/* Grounding Script */}
             <GroundingScript
-              title={response.grounding_script.title}
+              title="You don't have to go through this alone. We are here to help."
+              subtitle="&quot;Speak your thoughts, we are listening&quot;"
               durationMinutes={response.grounding_script.duration_minutes}
               steps={response.grounding_script.steps}
             />

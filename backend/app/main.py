@@ -6,6 +6,9 @@ from .config import get_settings
 from .routes import orchestrate, history
 from .services.database_service import get_db_pool, close_db_pool
 
+from fastapi.responses import JSONResponse
+from fastapi.requests import Request
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -27,6 +30,15 @@ app = FastAPI(
     title="AnchorAI Recovery API",
     lifespan=lifespan
 )
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """Global exception handler for unexpected errors."""
+    logger.error(f"Unhandled exception during {request.method} {request.url}: {exc}", exc_info=True)
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "An internal server error occurred. Please try again later."},
+    )
 
 settings = get_settings()
 

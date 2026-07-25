@@ -73,3 +73,14 @@ async def test_orchestrate_response_schema(monkeypatch):
     assert "crisis_log_id" in data
     assert "timestamp" in data
     assert data["intent_detection"]["user_state"] == "anxious"
+
+@pytest.mark.asyncio
+async def test_global_exception_handler(monkeypatch):
+    # Mock the Gemini service to raise a generic Exception
+    monkeypatch.setattr("app.routes.orchestrate.orchestrate_crisis", AsyncMock(side_effect=Exception("Simulated catastrophic failure")))
+    
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        response = await ac.post("/api/orchestrate", json={"voice_transcript": "I need help"})
+        
+    assert response.status_code == 500
+    assert "internal server error" in response.json()["detail"].lower()
