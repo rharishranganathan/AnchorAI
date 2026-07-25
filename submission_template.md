@@ -14,14 +14,14 @@
 ---
 
 ## Public GitHub Repository Link
-[Insert Final GitHub URL Here]
+https://github.com/rharishranganathan/AnchorAI
 
 > **Compliance Note**: Verified repository size is strictly under 10 MB (enforced via provided `.gitignore` which excludes `node_modules/`, `.next/`, `venv/`, `__pycache__/`, and all build artifacts). Public access is confirmed. The repository contains all source code, configuration files, database schema, automated test suite, and comprehensive documentation required for full evaluation.
 
 ---
 
 ## Deployed Link
-[Insert Live Deployment URL Here]
+https://anchoraideploy.vercel.app/
 
 ---
 

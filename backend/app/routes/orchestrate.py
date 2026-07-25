@@ -41,7 +41,7 @@ async def orchestrate(request: OrchestrateRequest):
             
         # Trigger caregiver alert
         if gemini_response["family_notification"]["notify_family"]:
-            send_caregiver_alert(gemini_response, user_id, request.caregiver_email)
+            send_caregiver_alert(gemini_response, user_id)
             
         # Format response
         response_data = gemini_response.copy()

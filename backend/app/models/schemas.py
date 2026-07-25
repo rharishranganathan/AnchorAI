@@ -5,7 +5,6 @@ from pydantic import BaseModel, Field
 class OrchestrateRequest(BaseModel):
     voice_transcript: str
     user_id: Optional[str] = Field(default_factory=lambda: str(uuid.uuid4()))
-    caregiver_email: Optional[str] = None
 
 class IntentDetection(BaseModel):
     user_state: str
