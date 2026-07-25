@@ -37,8 +37,11 @@ SUGGESTED MESSAGE TO CAREGIVER:
     # Visually prominent in console
     logger.warning(alert_string)
     
+    # Use provided email, or fallback to GMAIL_USER for testing
+    target_email = caregiver_email or os.environ.get("GMAIL_USER")
+    
     # Send actual email if address provided for hackathon demo
-    if caregiver_email:
+    if target_email:
         try:
             gmail_user = os.environ.get("GMAIL_USER")
             gmail_pass = os.environ.get("GMAIL_APP_PASSWORD")
@@ -48,13 +51,13 @@ SUGGESTED MESSAGE TO CAREGIVER:
                 msg.set_content(f"CRITICAL ALERT: Your loved one has triggered an SOS and is at {risk_level} risk.\n\nReason: {reason}\n\nSuggested action:\n{suggested_message}")
                 msg['Subject'] = '🚨 URGENT: AnchorAI Caregiver Alert 🚨'
                 msg['From'] = gmail_user
-                msg['To'] = caregiver_email
+                msg['To'] = target_email
 
                 server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
                 server.login(gmail_user, gmail_pass)
                 server.send_message(msg)
                 server.quit()
-                logger.info(f"Caregiver email successfully sent to {caregiver_email}!")
+                logger.info(f"Caregiver email successfully sent to {target_email}!")
             else:
                 logger.warning("GMAIL_USER or GMAIL_APP_PASSWORD missing. Email not sent.")
         except Exception as e:
