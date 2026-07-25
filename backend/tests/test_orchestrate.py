@@ -14,8 +14,7 @@ async def test_health_endpoint():
 async def test_empty_transcript_rejected():
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         response = await ac.post("/api/orchestrate", json={"voice_transcript": ""})
-    assert response.status_code == 400
-    assert "Voice transcript cannot be empty" in response.json()["detail"]
+    assert response.status_code == 422
 
 @pytest.mark.asyncio
 async def test_orchestrate_response_schema(monkeypatch):

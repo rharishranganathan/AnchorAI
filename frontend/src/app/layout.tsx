@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: 'AI-driven recovery platform for individuals with Substance Use Disorders. Real-time crisis management, safety planning, and caregiver support.',
 }
 
+import ErrorBoundary from '../components/ErrorBoundary'
+
 export default function RootLayout({
   children,
 }: {
@@ -17,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} min-h-screen bg-[#0a0e1a] text-slate-300 antialiased`}>
-        {children}
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
       </body>
     </html>
   )
